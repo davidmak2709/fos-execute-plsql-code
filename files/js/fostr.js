@@ -173,6 +173,8 @@ window.fostr = (function() {
                 title = apex.util.escapeHTML(title);
             }
             $titleElement.append(title);
+        } else {
+            $titleElement.remove();
         }
 
         //setting the message

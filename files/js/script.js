@@ -48,6 +48,8 @@ FOS.exec.createNestedObjectAndAssign = function (obj, keyPath, value) {
  * @param {boolean}  config.options.showErrorAsAlert          When true any error will be displayed in an alert
  * @param {boolean}  [config.options.performSubstitutions]    Whether the success or error message should perform item susbstitutions before being shown
  * @param {boolean}  [config.options.escapeMessage]           Whether to escape the success or error message before being shown
+ * @param {object}   config.fostr                             Object holding fostr configuration
+ * @param {number}   [config.fostr.dismissAfter]              Number in milliseconds after which the notification should be automatically removed. Hovering or clicking the notification stops this event
  * @param {function} [initFn]                                 Javascript Initialization Code Function, it can be undefined
  */
 FOS.exec.plsql = function (daContext, config, initFn) {
@@ -57,20 +59,8 @@ FOS.exec.plsql = function (daContext, config, initFn) {
     var C_INFO = 'info';
     var C_SUCCESS = 'success';
     var C_WARNING = 'warning';
-
-    var fostrOptions = {};
+    
     apex.debug.info('FOS - Execute PL/SQL Code', config);
-
-    fostrOptions = {
-        dismiss: ['onClick', 'onButton'],
-        dismissAfter: 5000,
-        newestOnTop: true,
-        preventDuplicates: false,
-        escapeHtml: false,
-        position: 'top-right',
-        iconClass: null,
-        clearAll: false
-    };
 
     // Allow the developer to perform any last (centralized) changes using Javascript Initialization Code setting
     // in addition to our plugin config we will pass in a 2nd object for configuring the FOS notifications
@@ -86,6 +76,18 @@ FOS.exec.plsql = function (daContext, config, initFn) {
     var clobSettings = config.clobSettings;
     var options = config.options;
     var message, messageType, messageTitle;
+
+    var fostrOptions = {};
+    fostrOptions = {
+        dismiss: ['onClick', 'onButton'],
+        dismissAfter: config.fostr.dismissAfter,
+        newestOnTop: true,
+        preventDuplicates: false,
+        escapeHtml: false,
+        position: 'top-right',
+        iconClass: null,
+        clearAll: false
+    };
 
     // access nested object property by string path
     // https://stackoverflow.com/questions/6491463/accessing-nested-javascript-objects-and-arrays-by-string-path
@@ -284,13 +286,13 @@ FOS.exec.plsql = function (daContext, config, initFn) {
                 if (message && options.escapeMessage) {
                     message = apex.util.escapeHTML(message);
                 }
-
+                
                 // notify
                 $.extend(fostrOptions, {
-                    message: (messageTitle) ? message : undefined,
-                    title: (!messageTitle) ? message : messageTitle,
-                    type: messageType,
-                    dismissAfter: (messageType === C_ERROR) ? undefined : fostrOptions.dismissAfter
+                    message: message
+                    , title: messageTitle
+                    , type: messageType
+                    , dismissAfter: (messageType === C_ERROR) ? undefined : fostrOptions.dismissAfter
                 });
                 fostr[messageType](fostrOptions);
             }
@@ -327,10 +329,10 @@ FOS.exec.plsql = function (daContext, config, initFn) {
                     apex.message.alert(message);
                 } else {
                     $.extend(fostrOptions, {
-                        message: (messageTitle) ? message : undefined,
-                        title: (!messageTitle) ? message : messageTitle,
-                        type: C_ERROR,
-                        dismissAfter: undefined
+                        message: message
+                        , title: messageTitle
+                        , type: C_ERROR
+                        , dismissAfter: undefined
                     });
                     fostr.error(fostrOptions);
 

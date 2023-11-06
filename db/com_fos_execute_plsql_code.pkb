@@ -222,6 +222,9 @@ is
     l_show_spinner_on_region   boolean := instr(p_dynamic_action.attribute_15, 'spinnerPosition')      > 0;
     l_replace_on_client        boolean := instr(p_dynamic_action.attribute_15, 'client-substitutions') > 0;
     l_escape_message           boolean := instr(p_dynamic_action.attribute_15, 'escape-message')       > 0;
+    
+    -- fostr options
+    l_dismiss_after_seconds    pls_integer  := nvl(cast(p_dynamic_action.attribute_12 as pls_integer), 0);
 
     -- Javascript Initialization Code
     l_init_js_fn               varchar2(32767) := nvl(apex_plugin_util.replace_substitutions(p_dynamic_action.init_javascript_code), 'undefined');
@@ -262,6 +265,9 @@ begin
     --     "options": {
     --         "suppressChangeEvent": false,
     --         "showErrorAsAlert": true
+    --     },
+    --     "fostr": {
+    --         "dismissAfter": 0
     --     }
     -- });
     apex_json.initialize_clob_output;
@@ -296,6 +302,11 @@ begin
     apex_json.write('showErrorAsAlert'    , l_show_error_as_alert);
     apex_json.write('performSubstitutions', l_replace_on_client);
     apex_json.write('escapeMessage'       , l_escape_message);
+    apex_json.close_object;
+
+    apex_json.open_object('fostr');
+    -- convert seconds to miliseconds
+    apex_json.write('dismissAfter' , l_dismiss_after_seconds * 1000);
     apex_json.close_object;
 
     apex_json.close_object;
