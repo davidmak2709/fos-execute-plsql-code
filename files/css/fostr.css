@@ -25,7 +25,7 @@
   * Modifier: Warning
   */
 .fos-Alert--warning .fos-Alert-icon .t-Icon {
-  color: #fbcf4a;
+  color: #fbcf4a;  
 }
 .fos-Alert--warning.fos-Alert--horizontal .fos-Alert-icon {
   background-color: rgba(251, 207, 74, 0.15);
@@ -34,7 +34,7 @@
   * Modifier: Success
   */
 .fos-Alert--success .fos-Alert-icon .t-Icon {
-  color: #3BAA2C;
+  color: var(--a-palette-success, #3BAA2C);
 }
 .fos-Alert--success.fos-Alert--horizontal .fos-Alert-icon {
   background-color: rgba(59, 170, 44, 0.15);
@@ -43,16 +43,16 @@
   * Modifier: Information
   */
 .fos-Alert--info .fos-Alert-icon .t-Icon {
-  color: #0076df;
+  color: var(--a-palette-info, #0076df);
 }
 .fos-Alert--info.fos-Alert--horizontal .fos-Alert-icon {
   background-color: rgba(0, 118, 223, 0.15);
 }
 /**
-  * Modifier: Success
+  * Modifier: Danger
   */
 .fos-Alert--danger .fos-Alert-icon .t-Icon {
-  color: #f44336;
+  color: var(--a-palette-danger, #f44336);
 }
 .fos-Alert--danger.fos-Alert--horizontal .fos-Alert-icon {
   background-color: rgba(244, 67, 54, 0.15);
@@ -74,8 +74,8 @@
 }
 */
 .fos-Alert--page.fos-Alert--success {
-  background-color: rgba(59, 170, 44, 0.9);
-  color: #FFF;
+  background-color: var(--a-palette-success, #3BAA2C);;
+  color: var(--a-palette-success-contrast, #FFF);
 }
 .fos-Alert--page.fos-Alert--success .fos-Alert-icon {
   background-color: transparent;
@@ -89,7 +89,7 @@
 }
 .fos-Alert--page.fos-Alert--warning {
   background-color: #fbcf4a;
-  color: #443402;
+  color:  #443402;
 }
 .fos-Alert--page.fos-Alert--warning .fos-Alert-icon {
   background-color: transparent;
@@ -102,8 +102,8 @@
   color: #FFF !important;
 }
 .fos-Alert--page.fos-Alert--info {
-  background-color: #0076df;
-  color: #FFF;
+  background-color: var(--a-palette-info, #0076df);
+  color: var(--a-palette-info-contrast, #FFF);
 }
 .fos-Alert--page.fos-Alert--info .fos-Alert-icon {
   background-color: transparent;
@@ -116,8 +116,8 @@
   color: #FFF !important;
 }
 .fos-Alert--page.fos-Alert--danger {
-  background-color: #f44336;
-  color: #FFF;
+  background-color: var(--a-palette-danger, #f44336);
+  color: var(--a-palette-danger-contrast, #FFF);
 }
 .fos-Alert--page.fos-Alert--danger .fos-Alert-icon {
   background-color: transparent;
@@ -231,6 +231,9 @@
 }
 .fos-Alert--page .fos-Alert-body {
   padding-bottom: 8px;
+  padding-top: 8px;
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 .fos-Alert--page .fos-Alert-content {
   padding: 8px;
